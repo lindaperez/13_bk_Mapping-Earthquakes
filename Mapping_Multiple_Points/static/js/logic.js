@@ -28,5 +28,17 @@ let cityData = cities;
 
 cityData.forEach(function (city) {
     console.log('City:', city);
-    L.marker(city.location).addTo(map);
+    L.marker(city.location)
+    .bindPopup('<b>'+city.city+', '+city.state+'</b>\
+                <hr>\
+                <b>Population:</b> '
+                +city.population.toLocaleString()+'<br>\
+                '+city.location+'<br>')
+    .addTo(map);
+    L.circleMarker(city.location,{
+        radius: city.population/100000,
+        color: "blue",
+        fillColor: "#ffffa1"
+     }).addTo(map);
+    
 });
