@@ -17,7 +17,7 @@ let streets = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{
     accessToken: API_KEY,
     tileSize: 512,
     zoomOffset: -1,
-    id: 'mapbox/streets-v11'
+    id: 'mapbox/dark-v10'
 
 });
 
@@ -28,17 +28,18 @@ let cityData = cities;
 
 cityData.forEach(function (city) {
     console.log('City:', city);
-    L.marker(city.location)
-    .bindPopup('<b>'+city.city+', '+city.state+'</b>\
-                <hr>\
-                <b>Population:</b> '
-                +city.population.toLocaleString()+'<br>\
-                '+city.location+'<br>')
-    .addTo(map);
+
+   
     L.circleMarker(city.location,{
         radius: city.population/100000,
-        color: "blue",
-        fillColor: "#ffffa1"
-     }).addTo(map);
+        color: "orange",
+        fillColor: "#ffffa1",
+        lineweight: 4
+     })
+     .bindPopup('<b>'+city.city+', '+city.state+'</b>\
+     <hr>\
+     <b>Population:</b> '
+     +city.population.toLocaleString()+'<br>')
+     .addTo(map);
     
 });
