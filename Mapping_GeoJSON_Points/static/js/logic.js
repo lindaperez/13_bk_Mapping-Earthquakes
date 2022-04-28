@@ -1,5 +1,4 @@
-// Center of the map
-var map = L.map('mapid').setView([37.5, -122.5], 10);
+
 const atributesTileLayer = 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery (c) <a href="https://www.mapbox.com/">Mapbox</a>';
 const tileLayerUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}';
 //streets tile layer
@@ -22,6 +21,12 @@ let dark = L.tileLayer(tileLayerUrl, {
     id: 'mapbox/dark-v10'
 
 });
+// Center of the map
+let map = L.map('mapid', {
+    center: [37.5, -122.5],
+    zoom: 10,
+    layers: [streets]
+})
 //default layer
 streets.addTo(map);
 
