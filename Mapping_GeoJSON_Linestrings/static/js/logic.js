@@ -12,7 +12,7 @@ var streets = L.tileLayer(tileLayerUrl, {
     id: 'mapbox/streets-v10'
 
 });
-streets.addTo(map);
+
 // dark layer
 let dark = L.tileLayer(tileLayerUrl, {
     attribution: atributesTileLayer,
@@ -22,8 +22,10 @@ let dark = L.tileLayer(tileLayerUrl, {
     zoomOffset: -1,
     id: 'mapbox/dark-v10'
 });
+dark.addTo(map);
 // Accessing the airport GeoJSON URL
-const airportData = "torontoRoutes.json";
+const airportData = "https://raw.githubusercontent.com/lindaperez/mapping-earthquakes/Mapping_GeoJSON_Linestrings/Mapping_GeoJSON_Linestrings/torontoRoutes.json";
+
 
 var sfoAirport = [];
 // Grabbing our GeoJSON data.
@@ -31,16 +33,17 @@ d3.json(airportData).then(function (data) {
     console.log(data);
     // Creating a GeoJSON layer with the retrieved data.
     L.geoJSON(data,{
-        pointToLayer: function (feature, latlng) {
-            console.log('Feature',feature)
-            let geoMarker =  L.marker(latlng)
-            .bindPopup("<h3> Airport code: "+
-            feature.properties.faa+
-            "</h3><hr><b>Airport Name: "+
-            feature.properties.name+
-            "</b>");
-            sfoAirport.push(geoMarker);
-            return geoMarker
+        color : 'yellow',
+        weight : 2,
+        onEachFeature: function (feature,layer) {
+            console.log(feature)
+            layer
+            .bindPopup("<h3> Airline: "+
+            feature.properties.airline+
+            "</h3><hr> Destination : "+
+            feature.properties.dst);
+     
+            
         }
     })
     .addTo(map);
@@ -48,8 +51,8 @@ d3.json(airportData).then(function (data) {
 const overlaySfo= L.layerGroup(sfoAirport);
 
 var baseMaps = {
-    Light: streets,
-    Dark: dark
+    'Day Navigation': streets,
+    'Night Navigation': dark
   };
 
   var overlayMaps = {
