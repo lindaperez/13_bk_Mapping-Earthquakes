@@ -23,15 +23,15 @@ let satelliteStreets = L.tileLayer(tileLayerUrl, {
 });
 
 const map = L.map('mapid',{
-    center: [ 43.68108112399995,-79.3],
-    zoom: 10,
+    center:[39.5, -98.5],
+    zoom: 3,
     layers: streets });
 
 
 
 
 // Accessing the airport GeoJSON URL
-const torontoHoods = "https://raw.githubusercontent.com/lindaperez/mapping-earthquakes/main/Mapping_GeoJSON_Polygons/torontoNeighborhoods.json";
+const torontoHoods = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
 
 
 
@@ -40,16 +40,14 @@ d3.json(torontoHoods).then(function (data) {
     console.log(data);
     // Creating a GeoJSON layer with the retrieved data.
     L.geoJSON(data,{
-        color:'blue',
-        weight:1,
-        fillColor:'yellow'
+        color:'blue'
     })
     .addTo(map);
 });
 
-var baseMaps = {
-    'Streets': streets,
-    'Satellite Streets': satelliteStreets
+let baseMaps = {
+    "Streets": streets,
+    "Satellite": satelliteStreets
   };
 
   L.control.layers(baseMaps).addTo(map);
