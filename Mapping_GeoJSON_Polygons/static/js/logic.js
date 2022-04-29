@@ -1,4 +1,3 @@
-const map = L.map('mapid').setView([30, 30], 2);
 
 
 const atributesTileLayer = 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery (c) <a href="https://www.mapbox.com/">Mapbox</a>';
@@ -14,50 +13,44 @@ var streets = L.tileLayer(tileLayerUrl, {
 });
 
 // dark layer
-let dark = L.tileLayer(tileLayerUrl, {
+let satelliteStreets = L.tileLayer(tileLayerUrl, {
     attribution: atributesTileLayer,
     maxZoom: 18,
     accessToken: API_KEY,
     tileSize: 512,
     zoomOffset: -1,
-    id: 'mapbox/dark-v10'
+    id: 'mapbox/satellite-streets-v11'
 });
-dark.addTo(map);
+
+const map = L.map('mapid',{
+    center: [ 43.68108112399995,-79.3],
+    zoom: 10,
+    layers: streets });
+
+
+
+
 // Accessing the airport GeoJSON URL
-const airportData = "https://raw.githubusercontent.com/lindaperez/mapping-earthquakes/Mapping_GeoJSON_Linestrings/Mapping_GeoJSON_Linestrings/torontoRoutes.json";
+const torontoHoods = "https://raw.githubusercontent.com/lindaperez/mapping-earthquakes/main/Mapping_GeoJSON_Polygons/torontoNeighborhoods.json";
 
 
-var sfoAirport = [];
+
 // Grabbing our GeoJSON data.
-d3.json(airportData).then(function (data) {
+d3.json(torontoHoods).then(function (data) {
     console.log(data);
     // Creating a GeoJSON layer with the retrieved data.
     L.geoJSON(data,{
-        color : 'yellow',
-        weight : 2,
-        onEachFeature: function (feature,layer) {
-            console.log(feature)
-            layer
-            .bindPopup("<h3> Airline: "+
-            feature.properties.airline+
-            "</h3><hr> Destination : "+
-            feature.properties.dst);
-     
-            
-        }
+        color:'blue',
+        weight:1,
+        fillColor:'yellow'
     })
     .addTo(map);
 });
-const overlaySfo= L.layerGroup(sfoAirport);
 
 var baseMaps = {
-    'Day Navigation': streets,
-    'Night Navigation': dark
+    'Streets': streets,
+    'Satellite Streets': satelliteStreets
   };
 
-  var overlayMaps = {
-    Airport: overlaySfo
-  };
-
-  L.control.layers(baseMaps, overlayMaps).addTo(map);
+  L.control.layers(baseMaps).addTo(map);
   
