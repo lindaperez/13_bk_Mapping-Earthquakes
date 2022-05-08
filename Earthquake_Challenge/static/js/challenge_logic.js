@@ -39,9 +39,6 @@ const map = L.map('mapid', {
 });
 
 
-
-
-// Accessing the airport GeoJSON URL
 const torontoHoods = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
 
 
@@ -88,14 +85,12 @@ function styleInfo(feature) {
   };
 }
 let earthquakes = new L.layerGroup();
-// Grabbing GeoJSON data.
+
 d3.json(torontoHoods).then(function (data) {
   L.geoJSON(data, {
     style: styleInfo,
-    // We turn each feature into a circleMarker on the map.
 
     pointToLayer: function (feature, latlng) {
-      //console.log(feature);
       let marker = L.circleMarker(latlng);
       return marker;
     },
@@ -108,17 +103,11 @@ d3.json(torontoHoods).then(function (data) {
 
 let major_earthquakes_layer = new L.layerGroup();
 
-// Accessing the airport GeoJSON URL
+
 const m_4_5_earthquakes = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson";
 
 
-
-// 3. Retrieve the major earthquake GeoJSON data >4.5 mag for the week.
 d3.json(m_4_5_earthquakes).then(function (data) {
-
-  // 4. Use the same style as the earthquake data.
-  // 5. Change the color function to use three colors for the major earthquakes based on the magnitude of the earthquake.
-  // 6. Use the function that determines the radius of the earthquake marker based on its magnitude.
 
   //magnitude less than 5, a magnitude greater than 5, and a magnitude greater than 6
 
@@ -144,18 +133,10 @@ d3.json(m_4_5_earthquakes).then(function (data) {
     };
   }
 
-
-
-  // 7. Creating a GeoJSON layer with the retrieved data that adds a circle to the map 
-  // sets the style of the circle, and displays the magnitude and location of the earthquake
-  //  after the marker has been created and styled.
-
   L.geoJSON(data, {
     style: styleInfo,
-    // We turn each feature into a circleMarker on the map.
 
     pointToLayer: function (feature, latlng) {
-      //console.log(feature);
       let marker = L.circleMarker(latlng);
       return marker;
     },
@@ -163,9 +144,6 @@ d3.json(m_4_5_earthquakes).then(function (data) {
       layer.bindPopup("Magnitude: " + feature.properties.mag + "<br>Location: " + feature.properties.place);
     }
 
-  // 8. Add the major earthquakes layer to the map.
-
-  // 9. Close the braces and parentheses for the major earthquake data.
   }).addTo(major_earthquakes_layer);
   major_earthquakes_layer.addTo(map);
 
@@ -202,15 +180,14 @@ legend.onAdd = function () {
 legend.addTo(map);
 
 
-// Accessing the airport GeoJSON URL
 const bondaries_2002 = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json";
 
 
 let tectonicPlates = new L.layerGroup();
-// Grabbing GeoJSON data.
+
 d3.json(bondaries_2002).then(function (data) {
   console.log(data);
-  // Creating a GeoJSON layer with the retrieved data.
+
   L.geoJSON(data, {
     color: 'orange',
     weight: 1.5
@@ -223,7 +200,6 @@ let overlays = {
   'Earthquakes': earthquakes,
   'Major Earthquakes' : major_earthquakes_layer
 };
-// Then we add a control to the map that will allow the user to change
-// which layers are visible.
+
 L.control.layers(baseMaps, overlays).addTo(map);
 
