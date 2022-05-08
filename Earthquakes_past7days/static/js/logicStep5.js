@@ -78,10 +78,8 @@ function getColor(magnitude) {
     };
   }
 let earthquakes = new L.layerGroup();
-// Grabbing our GeoJSON data.
+// Grabbing GeoJSON data.
 d3.json(torontoHoods).then(function (data) {
-    //console.log(data);
-
     L.geoJSON(data, {
         style: styleInfo,
         // We turn each feature into a circleMarker on the map.
@@ -126,7 +124,6 @@ legend.onAdd = function () {
   ];
   // Looping through our intervals to generate a label with a colored square for each interval.
   for (var i = 0; i < magnitudes.length; i++) {
-    console.log(colors[i]);
     div.innerHTML +=
       "<i style='background: " + colors[i] + "'></i> " +
       magnitudes[i] + (magnitudes[i + 1] ? "&ndash;" + magnitudes[i + 1] + "<br>" : "+");
