@@ -41,13 +41,13 @@ let baseMaps = {
 };
 
 
-  /* Generic Function for all Layers to get the radius given a magnitude */
-  function getRadius(magnitude) {
-    if (magnitude === 0) {
-      return 1;
-    }
-    return magnitude * 4;
+/* Generic Function for all Layers to get the radius given a magnitude */
+function getRadius(magnitude) {
+  if (magnitude === 0) {
+    return 1;
   }
+  return magnitude * 4;
+}
 
 
 let allEarthquakes = new L.LayerGroup();
